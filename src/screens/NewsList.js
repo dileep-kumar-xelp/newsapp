@@ -27,6 +27,7 @@ export default class NewsList extends Component {
         {this.props.loading && (
           <View style={styles.loaderContainer}>
             <ActivityIndicator size={"large"} color={"blue"} />
+            <Text style={styles.loaderText}>Fetching news...</Text>
           </View>
         )}
         {this.props.topNewsData &&
