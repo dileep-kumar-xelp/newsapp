@@ -3,9 +3,14 @@ import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import styles from "../styles/NewsListStyles";
 import NewsListItem from "../components/ListItem";
 import PropTypes from "prop-types";
+import NetInfo from "@react-native-community/netinfo";
 export default class NewsList extends Component {
   componentDidMount() {
-    this.props.getTopNews();
+    NetInfo.fetch().then(state => {
+      if (state.isConnected) {
+        this.props.getTopNews();
+      }
+    });
   }
   navigateTo = item => {
     const { navigate } = this.props.navigation;
@@ -26,7 +31,7 @@ export default class NewsList extends Component {
       <View style={styles.container}>
         {this.props.loading && (
           <View style={styles.loaderContainer}>
-            <ActivityIndicator size={"large"} color={"blue"} />
+            <ActivityIndicator size={"large"} color={"#A9A9A9"} />
             <Text style={styles.loaderText}>Fetching news...</Text>
           </View>
         )}

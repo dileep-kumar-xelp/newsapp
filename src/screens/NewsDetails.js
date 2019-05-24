@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
 import styles from "../styles/NewsDetailsStyles";
-
-import PropTypes from "prop-types";
-
+import moment from "moment";
 export default class NewsDetails extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +17,12 @@ export default class NewsDetails extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{data.title}</Text>
+        <View style={styles.authorAndDateHolder}>
+          <Text style={styles.author}>{data.author}</Text>
+          <Text style={styles.publishedAt}>
+            {moment(data.publishedAt).format("MM/DD/YYYY")}
+          </Text>
+        </View>
         <Image style={styles.image} source={{ uri: data.urlToImage }} />
         <Text>{data.content}</Text>
       </View>
