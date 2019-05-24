@@ -1,57 +1,50 @@
 import React, { Component } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, ActivityIndicator } from "react-native";
 import styles from "../styles/NewsListStyles";
 import NewsListItem from "../components/ListItem";
 import PropTypes from "prop-types";
-const list = [
-  "CameraSync",
-  "Form",
-  "CheckBox",
-  "RadioButton",
-  "MultiSelect",
-  "GridView",
-  "MultiSelectGridView",
-  "Swiper",
-  "ParallaxScrollView",
-  "ScrollableHeader",
-  "AvatarList",
-  "StaggeredGrid",
-  "CardStack",
-  "HorizontalSliderDemo",
-  "FloatLabelTextField",
-  "ProgressBar",
-  "TextWithSpace",
-  "Header",
-  "SnackBar",
-  "FloatingMenu",
-  "VerticalSwiper",
-  "ButtonDemo"
-];
 export default class NewsList extends Component {
   componentDidMount() {
     this.props.getTopNews();
   }
   navigateTo = item => {
     const { navigate } = this.props.navigation;
+    navigate("Details", { item });
   };
   renderItem = item => {
-    return <NewsListItem title={"HEADER"} subTitle={"Subtitle"} />;
+    return (
+      <NewsListItem
+        title={item.title}
+        author={item.author}
+        image={item.urlToImage}
+        onPress={() => this.navigateTo(item)}
+      />
+    );
   };
   render() {
     return (
       <View style={styles.container}>
-        <FlatList
-          data={list}
-          contentContainerStyle={styles.list}
-          keyExtractor={(item, index) => item}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => this.renderItem(item)}
-        />
+        {this.props.loading && (
+          <View style={styles.loaderContainer}>
+            <ActivityIndicator size={"large"} color={"blue"} />
+          </View>
+        )}
+        {this.props.topNewsData &&
+          this.props.topNewsData.articles.length > 0 && (
+            <FlatList
+              data={this.props.topNewsData.articles}
+              contentContainerStyle={styles.list}
+              keyExtractor={(item, index) => item.title}
+              showsVerticalScrollIndicator={false}
+              renderItem={({ item }) => this.renderItem(item)}
+            />
+          )}
       </View>
     );
   }
 }
 NewsList.propTypes = {
   newsData: PropTypes.array,
-  getTopNews: PropTypes.func
+  getTopNews: PropTypes.func,
+  topNewsData: PropTypes.object
 };

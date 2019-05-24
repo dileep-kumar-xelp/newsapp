@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import configureStore from "./configStore";
 import { Provider } from "react-redux";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import NewsList from "./src/screens/NewsList";
 import NewsListContainer from "./src/containers/NewsListContainer";
+import NewsDetails from "./src/screens/NewsDetails";
 const mainStack = createStackNavigator({
   Home: {
     screen: NewsListContainer
+  },
+  Details: {
+    screen: NewsDetails
   }
 });
 const AppContainer = createAppContainer(mainStack);

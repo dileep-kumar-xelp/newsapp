@@ -6,7 +6,8 @@ const mapStateToProps = state => {
   return {
     loading: state.topNews.loading,
     error: state.topNews.error,
-    status: state.topNews.status
+    status: state.topNews.status,
+    topNewsData: state.topNews.topNewsData
   };
 };
 
